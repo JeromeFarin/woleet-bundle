@@ -1,0 +1,23 @@
+{
+    "name": "monsieursloop/woleet-bundle",
+    "description": "Woleet API Symfony Bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Germain LECOURTOIS",
+            "email": "gl@monsieursloop.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MonsieurSloop\\Bundle\\WoleetBundle\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2",
+        "symfony/framework-bundle": "^4.4|^5.1",
+        "monsieursloop/woleet-php-sdk" : "~1.0"
+    }
+}

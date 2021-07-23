@@ -1,0 +1,9 @@
+parameters:
+  woleet_api.class: MonsieurSloop\Bundle\WoleetBundle\Services\WoleetService
+
+services:
+  MonsieurSloop\Bundle\WoleetBundle\Services\WoleetService: "@woleet_api"
+  woleet_api:
+    class: "%woleet_api.class%"
+    arguments: ["%monsieur_sloop_woleet.api_key%","%monsieur_sloop_woleet.api_callback_key%","%monsieur_sloop_woleet.api_url%"]
+    autowire: true
