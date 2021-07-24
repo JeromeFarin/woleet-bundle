@@ -3,7 +3,6 @@
     "description": "Woleet API Symfony Bundle",
     "type": "symfony-bundle",
     "license": "MIT",
-    "version": "1.0",
     "authors": [
         {
             "name": "Germain LECOURTOIS",

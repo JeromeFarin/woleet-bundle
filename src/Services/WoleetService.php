@@ -3,6 +3,7 @@
 namespace MonsieurSloop\Bundle\WoleetBundle\Services;
 
 use MonsieurSloop\Woleet\WoleetClient;
+use Symfony\Component\HttpFoundation\Request;
 use WooletClient\Api\AnchorApi;
 use WooletClient\Api\DomainApi;
 use WooletClient\Api\ReceiptApi;
@@ -83,6 +84,37 @@ class WoleetService
     public function getUserApi($client = null, $selector = null)
     {
         return new UserApi($client, $this->config, $selector);
+    }
+
+
+    /**
+     * Used to check the secret callback key system.
+     * @param Request $request
+     * @return bool|null
+     */
+    public function checkCallBack(Request $request) : ?bool{
+        $body = $request->getContent();
+        $callBHash = $request->headers->get("X-Woleet-Signature");
+        $myHash = base64_encode(hash_hmac("sha1", $body, $this->api_callback_key, true));
+        return $callBHash === $myHash;
+    }
+
+    /**
+     * Decode the callback body if the callback hash is checked
+     * @param $request
+     * @return object|null
+     */
+    public function decodeCallback(Request $request) : ?object{
+        if(!$this->checkCallBack($request)){
+            return null;
+        } else {
+            try {
+                $body = json_decode($request->getContent());
+            } catch (\Exception $e){
+                return null;
+            }
+            return $body;
+        }
     }
 
 }
