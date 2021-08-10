@@ -16,8 +16,8 @@ class WoleetService
 {
 
 
-    private $api_key;
-    private $api_callback_key;
+    private $api_token;
+    private $callback_secret;
     private $api_url;
 
     /**
@@ -25,14 +25,14 @@ class WoleetService
      */
     private $config;
 
-    public function __construct($api_key, $api_callback_key, $api_url)
+    public function __construct($api_token, $callback_secret, $api_url)
     {
 
-        $this->api_key = $api_key;
-        $this->api_callback_key = $api_callback_key;
+        $this->api_token = $api_token;
+        $this->callback_secret = $callback_secret;
         $this->api_url = $api_url;
         $this->config = Configuration::getDefaultConfiguration()
-            ->setApiKey('Authorization', 'Bearer ' . $this->api_key)
+            ->setApiKey('Authorization', 'Bearer ' . $this->api_token)
             ->setHost($this->api_url);
 
     }
@@ -95,7 +95,7 @@ class WoleetService
     public function checkCallBack(Request $request) : ?bool{
         $body = $request->getContent();
         $callBHash = $request->headers->get("X-Woleet-Signature");
-        $myHash = base64_encode(hash_hmac("sha1", $body, $this->api_callback_key, true));
+        $myHash = base64_encode(hash_hmac("sha1", $body, $this->callback_secret, true));
         return $callBHash === $myHash;
     }
 

@@ -26,8 +26,8 @@ class MonsieurSloopWoleetExtension extends Extension
         $loader->load('services.yaml');
 
         $container->setParameter(Configuration::$ROOTNODE, $config);
-        $container->setParameter("monsieur_sloop_woleet.api_key", $config["api_key"]);
-        $container->setParameter("monsieur_sloop_woleet.api_callback_key", $config["api_callback_key"]);
+        $container->setParameter("monsieur_sloop_woleet.api_token", $config["api_token"]);
+        $container->setParameter("monsieur_sloop_woleet.callback_secret", $config["callback_secret"]);
         $container->setParameter("monsieur_sloop_woleet.api_url", $config["api_url"]);
 
 

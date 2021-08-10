@@ -23,12 +23,12 @@ class Configuration implements ConfigurationInterface
             $rootNode = $treeBuilder->root(self::$ROOTNODE);
         }
         $rootNode->children()
-            ->scalarNode('api_key')
-            ->info('The Woleet API KEY. This is a secret part generated from the Woleet Proofdesk.')
+            ->scalarNode('api_token')
+            ->info('The Woleet API TOKEN. This is a secret part generated from the Woleet Proofdesk.')
             ->isRequired()
             ->end()
-            ->scalarNode('api_callback_key')
-            ->info('The Woleet API CALLBACK KEY. This is a secret part generated from the Woleet Proofdesk.')
+            ->scalarNode('callback_secret')
+            ->info('The Woleet CALLBACK SECRET. This is a secret part generated from the Woleet Proofdesk.')
             ->end()
             ->scalarNode('api_url')
             ->defaultValue('https://api.woleet.io/v1')
