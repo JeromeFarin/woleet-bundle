@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->scalarNode('callback_secret')
             ->info('The Woleet CALLBACK SECRET. This is a secret part generated from the Woleet Proofdesk.')
+            ->defaultValue(null)
             ->end()
             ->scalarNode('api_url')
             ->defaultValue('https://api.woleet.io/v1')
