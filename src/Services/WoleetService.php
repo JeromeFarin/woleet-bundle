@@ -16,21 +16,11 @@ class WoleetService
 {
 
 
-    private $api_token;
-    private $callback_secret;
-    private $api_url;
+    private readonly \WooletClient\Configuration $config;
 
-    /**
-     * @var Configuration
-     */
-    private $config;
-
-    public function __construct($api_token, $callback_secret, $api_url)
+    public function __construct(private $api_token, private $callback_secret, private $api_url)
     {
 
-        $this->api_token = $api_token;
-        $this->callback_secret = $callback_secret;
-        $this->api_url = $api_url;
         $this->config = Configuration::getDefaultConfiguration()
             ->setApiKey('Authorization', 'Bearer ' . $this->api_token)
             ->setHost($this->api_url);
@@ -89,28 +79,25 @@ class WoleetService
 
     /**
      * Used to check the secret callback key system.
-     * @param Request $request
-     * @return bool|null
      */
     public function checkCallBack(Request $request) : ?bool{
         $body = $request->getContent();
         $callBHash = $request->headers->get("X-Woleet-Signature");
-        $myHash = base64_encode(hash_hmac("sha1", $body, $this->callback_secret, true));
+        $myHash = base64_encode(hash_hmac("sha1", $body, (string) $this->callback_secret, true));
         return $callBHash === $myHash;
     }
 
     /**
      * Decode the callback body if the callback hash is checked
      * @param $request
-     * @return object|null
      */
     public function decodeCallback(Request $request) : ?object{
         if(!$this->checkCallBack($request)){
             return null;
         } else {
             try {
-                $body = json_decode($request->getContent());
-            } catch (\Exception $e){
+                $body = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+            } catch (\Exception){
                 return null;
             }
             return $body;
